@@ -16,5 +16,7 @@ conn.close()
 # data in meer leesbare json vorm steken
 data = json.loads(data)
 
+print(data)
+
 
 
