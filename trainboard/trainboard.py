@@ -16,7 +16,21 @@ conn.close()
 # data in meer leesbare json vorm steken
 data = json.loads(data)
 
-print(data)
+# lijst van alle vertrekkende treinen en hun info
+informatie = data.get("departures", {}).get("departure", [])
 
 
+
+
+
+
+
+
+
+ttl = turtle.Turtle()
+
+def balk_tekenen(x, y,):
+    ttl.penup()
+    ttl.goto(x, y)
+    ttl.pendown()
 
