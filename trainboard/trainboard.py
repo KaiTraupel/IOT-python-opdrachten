@@ -26,11 +26,23 @@ informatie = data.get("departures", {}).get("departure", [])
 
 
 
-
+# rechthoek tekenen
 ttl = turtle.Turtle()
-
-def balk_tekenen(x, y,):
+def balk_tekenen(x, y, breedte, hoogte, kleur):
     ttl.penup()
     ttl.goto(x, y)
     ttl.pendown()
+    ttl.begin_fill()
+    ttl.fillcolor(kleur)
+    for i in range(2):
+        ttl.forward(breedte)
+        ttl.right(90)
+        ttl.forward(hoogte)
+        ttl.right(90)
+    ttl.end_fill()
 
+x_position = -turtle.window_width() / 2
+y_position = turtle.window_height() / 2
+
+balk_tekenen(x_position, y_position,50, 50, "blue")
+turtle.done()
