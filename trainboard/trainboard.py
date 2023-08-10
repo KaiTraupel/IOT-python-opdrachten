@@ -30,6 +30,8 @@ informatie = data.get("departures", {}).get("departure", [])
 ttl = turtle.Turtle()
 def balk_tekenen(breedte, hoogte, kleur):
     ttl.pendown()
+    ttl.speed(0)
+    turtle.tracer(0, 0)
     ttl.begin_fill()
     ttl.fillcolor(kleur)
     for i in range(2):
@@ -56,9 +58,11 @@ height = turtle.window_height() / 9
 ttl.penup()
 ttl.goto(x_position, y_position)
 
-balk_tekenen(width, height, "blue")
+for i in range(3):
+    balk_tekenen(width, height, "blue")
 
 turtle.update()
 turtle.done()
+
 
 
