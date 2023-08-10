@@ -16,8 +16,22 @@ conn.close()
 # data in meer leesbare json vorm steken
 data = json.loads(data)
 
-# lijst van alle vertrekkende treinen en hun info
-informatie = data.get("departures", {}).get("departure", [])
+# afgaan van alle vertrekkende treinen en info uithalen
+for departure in data["departures"]["departure"]:
+    vertrek_tijd = departure["time"]
+    bestemming = departure["stationinfo"]["name"]
+    trein_naam = departure["vehicleinfo"]["shortname"]
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,11 +55,9 @@ def balk_tekenen(breedte, hoogte, kleur):
         ttl.right(90)
     ttl.end_fill()
     ttl.penup()
-
     ttl.forward(breedte)
     
     
-
 # tekenpositie linksboven
 x_position = -turtle.window_width() / 2
 y_position = turtle.window_height() / 2
