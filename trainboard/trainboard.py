@@ -24,16 +24,27 @@ y_position = turtle.window_height() / 2
 # info
 vertrek_tijd = []
 bestemming = []
-trein_naam = []
+trein_type = []
+platform = []
+vertraging = []
 
 # afgaan van alle vertrekkende treinen en info opslaan in lijsten
 for departure in data["departures"]["departure"]:
-    vertrek_tijd.append(departure["time"])
+    tijd = int(departure["time"]) # tijd opslaan als int om hieronder te kunne omzetten naar u en min
+    tijd = datetime.fromtimestamp(tijd).strftime("%H:%M")
+    vertrek_tijd.append(tijd)
     bestemming.append(departure["stationinfo"]["name"])
-    trein_naam.append(departure["vehicleinfo"]["shortname"])
+    trein_type.append(departure["vehicleinfo"]["type"])
+    platform.append(departure["platform"])
+    delay = int(departure["delay"])
+    vertraging.append(int(delay / 60))
     
- # rechthoek tekenen
+
+print(vertraging)
+
+ # rechthoek tekenen en de informatie erin zetten
 def balk_tekenen(breedte, hoogte, kleur, info):
+    ttl.color("white")
     ttl.pendown()
     ttl.hideturtle()
     ttl.begin_fill()
@@ -48,21 +59,28 @@ def balk_tekenen(breedte, hoogte, kleur, info):
     ttl.penup()
     ttl.forward(width)
     pos = ttl.pos()
-    ttl.backward(breedte - 10)
+    ttl.backward(breedte - 15)
     ttl.right(90)
-    ttl.forward(30)
+    ttl.forward(40)
     ttl.left(90)
-    ttl.write(f"{bestemming[info]}", font=("Arial", 10, "normal"))
+    ttl.write(f"{vertrek_tijd[info]}", font=("Arial", 14, "normal"))
+    ttl.forward(breedte / 4)
+    if vertraging[info] > 0:
+        ttl.write(f"{vertraging[info]}", font=("Arial", 14, "normal"))
+    ttl.forward(breedte / 3)
+    ttl.write(f"{trein_type[info]}", font=("Arial", 14, "normal"))
+    ttl.forward(breedte / 5)
+    ttl.write(f"{platform[info]}", font=("Arial", 14, "normal"))
     ttl.goto(pos)
+    ttl.backward(breedte - 15)
+    ttl.right(90)
+    ttl.forward(70)
+    ttl.left(90)
+    ttl.write(f"{bestemming[info]}", font=("Arial", 14, "normal"))
+    ttl.goto(pos)
+    
 
-    
-    
-    
-    
-    
-
-print(bestemming)  
-    
+print(vertrek_tijd)  
 
 # breedte en hoogte van de balken
 width = turtle.window_width() / 3
@@ -82,6 +100,7 @@ cellen = 0
 # kleuren voor de cellen
 kleuren = ["blue", "darkblue"]
 
+# gebruiken om de info van de volgende treinen op te halen
 info = 0
 
 # loop die een rooster maakt van drie kolommen en negen rijen
@@ -90,7 +109,7 @@ for i in range(9):
         cellen = cellen + 1
         print(info)
         balk_tekenen(width, height, kleuren[(cellen % 2)], info)
-        if info < 27:
+        if info < 20:
             info = info + 1
     ttl.goto(x_position, y_position - (height * rij))
     rij = rij + 1
