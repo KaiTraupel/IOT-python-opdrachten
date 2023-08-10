@@ -2,6 +2,7 @@ import http.client
 import json
 import turtle
 from datetime import datetime
+ttl = turtle.Turtle()
 
 # url voor de data die nodig is voor het liveboard van Antwerpen-Centraal
 url = "/liveboard/?station=Antwerpen-Centraal&arrdep=departure&lang=nl&format=json&alerts=false"
@@ -16,33 +17,23 @@ conn.close()
 # data in meer leesbare json vorm steken
 data = json.loads(data)
 
-# afgaan van alle vertrekkende treinen en info uithalen
+# tekenpositie linksboven
+x_position = -turtle.window_width() / 2
+y_position = turtle.window_height() / 2
+
+# info
+vertrek_tijd = []
+bestemming = []
+trein_naam = []
+
+# afgaan van alle vertrekkende treinen en info opslaan in lijsten
 for departure in data["departures"]["departure"]:
-    vertrek_tijd = departure["time"]
-    bestemming = departure["stationinfo"]["name"]
-    trein_naam = departure["vehicleinfo"]["shortname"]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# rechthoek tekenen
-ttl = turtle.Turtle()
-def balk_tekenen(breedte, hoogte, kleur):
+    vertrek_tijd.append(departure["time"])
+    bestemming.append(departure["stationinfo"]["name"])
+    trein_naam.append(departure["vehicleinfo"]["shortname"])
+    
+ # rechthoek tekenen
+def balk_tekenen(breedte, hoogte, kleur, info):
     ttl.pendown()
     ttl.hideturtle()
     ttl.begin_fill()
@@ -55,12 +46,23 @@ def balk_tekenen(breedte, hoogte, kleur):
         ttl.right(90)
     ttl.end_fill()
     ttl.penup()
-    ttl.forward(breedte)
+    ttl.forward(width)
+    pos = ttl.pos()
+    ttl.backward(breedte - 10)
+    ttl.right(90)
+    ttl.forward(30)
+    ttl.left(90)
+    ttl.write(f"{bestemming[info]}", font=("Arial", 10, "normal"))
+    ttl.goto(pos)
+
     
     
-# tekenpositie linksboven
-x_position = -turtle.window_width() / 2
-y_position = turtle.window_height() / 2
+    
+    
+    
+
+print(bestemming)  
+    
 
 # breedte en hoogte van de balken
 width = turtle.window_width() / 3
@@ -76,16 +78,28 @@ rij = 1
 # aantal cellen te tellen, nodig voor kleuren te laten afwisselen
 cellen = 0
 
+
 # kleuren voor de cellen
 kleuren = ["blue", "darkblue"]
 
+info = 0
+
 # loop die een rooster maakt van drie kolommen en negen rijen
-for i in range (9):
+for i in range(9):
     for i in range(3):
         cellen = cellen + 1
-        balk_tekenen(width, height, kleuren[(cellen % 2)])
+        print(info)
+        balk_tekenen(width, height, kleuren[(cellen % 2)], info)
+        if info < 27:
+            info = info + 1
     ttl.goto(x_position, y_position - (height * rij))
     rij = rij + 1
+
+
+
+    
+    
+
 
 
 
