@@ -30,9 +30,9 @@ informatie = data.get("departures", {}).get("departure", [])
 ttl = turtle.Turtle()
 def balk_tekenen(breedte, hoogte, kleur):
     ttl.pendown()
-    ttl.speed(0)
-    turtle.tracer(0, 0)
+    ttl.hideturtle()
     ttl.begin_fill()
+    turtle.tracer(0,0)
     ttl.fillcolor(kleur)
     for i in range(2):
         ttl.forward(breedte)
@@ -58,8 +58,24 @@ height = turtle.window_height() / 9
 ttl.penup()
 ttl.goto(x_position, y_position)
 
-for i in range(3):
-    balk_tekenen(width, height, "blue")
+# nodig voor het aantal rijen te bepalen in vollgende loop
+rij = 1
+
+# aantal cellen te tellen, nodig voor kleuren te laten afwisselen
+cellen = 0
+
+# kleuren voor de cellen
+kleuren = ["blue", "darkblue"]
+
+# loop die een rooster maakt van drie kolommen en negen rijen
+for i in range (9):
+    for i in range(3):
+        cellen = cellen + 1
+        balk_tekenen(width, height, kleuren[(cellen % 2)])
+    ttl.goto(x_position, y_position - (height * rij))
+    rij = rij + 1
+
+
 
 turtle.update()
 turtle.done()
