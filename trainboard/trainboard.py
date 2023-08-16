@@ -7,9 +7,17 @@ ttl = turtle.Turtle()
 # url voor de data die nodig is voor het liveboard van Antwerpen-Centraal
 url = "/liveboard/?station=Antwerpen-Centraal&arrdep=departure&lang=nl&format=json&alerts=false"
 
+# user-agent
+user_agent = "kai.traupel@student.ap.be"
+
+headers = {
+    'user-agent': user_agent,
+    'ok': "text/html"
+}
+
 # verbinding maken met iRail API
 conn = http.client.HTTPSConnection("api.irail.be")
-conn.request("GET", "/liveboard/?station=Antwerpen-Centraal&arrdep=departure&lang=nl&format=json&alerts=false")
+conn.request("GET", "/liveboard/?station=Antwerpen-Centraal&arrdep=departure&lang=nl&format=json&alerts=false", headers=headers)
 res = conn.getresponse()
 data = res.read().decode("utf-8")
 conn.close()
@@ -66,7 +74,7 @@ def balk_tekenen(breedte, hoogte, kleur, info):
     ttl.write(f"{vertrek_tijd[info]}", font=("Arial", 14, "normal"))
     ttl.forward(breedte / 4)
     if vertraging[info] > 0:
-        ttl.color("red")
+        ttl.color("darkred")
         ttl.write(f"+ {vertraging[info]}", font=("Arial", 14, "normal"))
         ttl.color("white")
     ttl.forward(breedte / 3)
