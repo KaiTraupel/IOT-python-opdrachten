@@ -66,7 +66,9 @@ def balk_tekenen(breedte, hoogte, kleur, info):
     ttl.write(f"{vertrek_tijd[info]}", font=("Arial", 14, "normal"))
     ttl.forward(breedte / 4)
     if vertraging[info] > 0:
-        ttl.write(f"{vertraging[info]}", font=("Arial", 14, "normal"))
+        ttl.color("red")
+        ttl.write(f"+ {vertraging[info]}", font=("Arial", 14, "normal"))
+        ttl.color("white")
     ttl.forward(breedte / 3)
     ttl.write(f"{trein_type[info]}", font=("Arial", 14, "normal"))
     ttl.forward(breedte / 5)
@@ -113,13 +115,6 @@ for i in range(9):
             info = info + 1
     ttl.goto(x_position, y_position - (height * rij))
     rij = rij + 1
-
-
-
-    
-    
-
-
 
 
 turtle.update()
